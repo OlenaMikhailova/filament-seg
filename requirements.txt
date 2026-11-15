@@ -1,0 +1,13 @@
+# Versions tested in development. On the lab cluster, install the torch build matching
+# your CUDA version first (https://pytorch.org/get-started/locally/), then `pip freeze`
+# the final environment back into this file before submission.
+torch==2.14.1
+segmentation-models-pytorch==0.5.0
+timm==1.0.30
+opencv-python-headless==5.0.0.93
+pycocotools==2.0.11
+scikit-learn==1.9.1
+numpy==2.5.3
+pandas==3.0.5
+PyYAML==6.0.3
+matplotlib==3.11.2

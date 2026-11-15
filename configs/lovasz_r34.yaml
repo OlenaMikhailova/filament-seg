@@ -1,0 +1,41 @@
+# Fine-tune the 80-epoch ResNet34 (fold 0) for 20 more epochs with BCE + Lovasz hinge,
+# a loss that optimises IoU directly. Only the loss changes; data, folds and model are the same.
+data_root: /path/to/MAGFiLO_1.0_Kaggle_2026   # change me
+cache_dir: cache
+work_dir: runs/lovasz_r34_f0
+seed: 42
+fold: 0
+preprocess: flat
+label_mode: soft
+
+model:
+  arch: Unet
+  encoder: resnet34
+  weights: null                      # no ImageNet download: weights come from init_from
+  init_from: weights/r34_f0_e80.pt   # the BCE+Dice model trained on folds 1-4
+
+train:
+  loss: bce_lovasz
+  lovasz_weight: 1.0
+  crop: 1024
+  batch_size: 8
+  epochs: 20
+  samples_per_epoch: 1600
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  pos_frac: 0.6
+  num_workers: 8
+  amp: true
+  val_every: 5
+
+infer:
+  tile: 1024
+  overlap: 256
+  tta: true
+  batch: 4
+
+post:
+  thr: 0.4
+  close_k: 9
+  min_area: 200
+  min_conf: 0.9
